@@ -18,3 +18,12 @@ create table rms_user
 insert into rms_user (id, username, password, email, phone, role_id, state)
 values (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@ginah.show', '13312345678', 1, 1);
 
+create table rms_project
+(
+    id          integer
+        constraint rms_project_pk
+            primary key autoincrement,
+    name        varchar(50) not null,
+    create_time datetime,
+    state       integer
+);
