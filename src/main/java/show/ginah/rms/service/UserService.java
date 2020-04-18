@@ -14,6 +14,10 @@ public interface UserService {
 
     List<User> getUsersByPage(int page, int size);
 
+    int countUser();
+
+    ApiResponse<Boolean> updateState(long id, int state);
+
     ApiResponse<User> login(String username, String password);
 
     ApiResponse<User> register(User user);

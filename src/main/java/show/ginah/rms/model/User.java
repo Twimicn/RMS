@@ -18,6 +18,7 @@ public class User {
     private Date updateTime;
     private int state;
     private String token;
+    private Date expire;
 
     public User() {
 

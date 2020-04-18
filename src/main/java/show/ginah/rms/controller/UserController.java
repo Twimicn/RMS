@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import show.ginah.rms.annotation.Permission;
 import show.ginah.rms.common.ApiResponse;
+import show.ginah.rms.common.PageData;
 import show.ginah.rms.model.User;
 import show.ginah.rms.service.UserService;
 
@@ -43,10 +44,23 @@ public class UserController {
     @Permission("admin")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public ApiResponse<List<User>> apiList(
+    public ApiResponse<PageData<User>> apiList(
             @RequestParam(name = "page", required = false, defaultValue = "1") int page,
             @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
-        return ApiResponse.<List<User>>builder().status(0).msg("ok").data(userService.getUsersByPage(page, size)).build();
+        PageData<User> userPageData = PageData.<User>builder()
+                .list(userService.getUsersByPage(page, size)).page(page)
+                .total(userService.countUser())
+                .build();
+        return ApiResponse.<PageData<User>>builder().status(0).msg("ok").data(userPageData).build();
+    }
+
+    @Permission("admin")
+    @RequestMapping(value = "/updateState", method = RequestMethod.POST)
+    @ResponseBody
+    public ApiResponse<Boolean> apiUpdateState(
+            @RequestParam("id") long id,
+            @RequestParam("state") int state) {
+        return userService.updateState(id, state);
     }
 
     @Permission("login")

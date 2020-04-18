@@ -21,10 +21,16 @@ public interface UserDao {
     @Select("select * from rms_user limit #{size} offset #{st}")
     List<User> getUsersByPage(@Param("st") int start, @Param("size") int size);
 
+    @Select("select count(1) from rms_user")
+    int countUser();
+
     @Insert("insert into rms_user(username,password,email,phone,create_time,role_id) values (#{username},#{password},#{email},#{phone},#{createTime},#{roleId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     long create(User user);
 
-    @Update("update rms_user set token=#{token},update_time=#{updateTime} where id=#{id}")
+    @Update("update rms_user set token=#{token},update_time=#{updateTime},expire=#{expire} where id=#{id}")
     int updateToken(User user);
+
+    @Update("update rms_user set state=#{state} where id=#{id}")
+    int updateState(long id, int state);
 }

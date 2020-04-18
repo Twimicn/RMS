@@ -11,8 +11,10 @@ create table rms_user
     create_time datetime,
     update_time datetime,
     state       integer,
-    token       varchar(40)
+    token       varchar(40),
+    expire      datetime
 );
 
 insert into rms_user (id, username, password, email, phone, role_id, state)
-values (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@ginah.show', '13312345678', 1, 1)
+values (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@ginah.show', '13312345678', 1, 1);
+
