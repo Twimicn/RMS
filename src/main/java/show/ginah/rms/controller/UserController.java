@@ -8,9 +8,6 @@ import show.ginah.rms.common.PageData;
 import show.ginah.rms.model.User;
 import show.ginah.rms.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-
 @Controller
 @RequestMapping("/api/user")
 @CrossOrigin
@@ -29,15 +26,17 @@ public class UserController {
     }
 
     @Permission("admin")
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public ApiResponse<User> apiRegister(
+    public ApiResponse<User> apiCreate(
             @RequestParam String username,
             @RequestParam String password,
             @RequestParam String email,
-            @RequestParam String phone
+            @RequestParam String phone,
+            @RequestParam(required = false, defaultValue = "0") int roleId
     ) {
         User user = new User(username, password, email, phone);
+        user.setRoleId(roleId);
         return userService.register(user);
     }
 
@@ -64,10 +63,16 @@ public class UserController {
     }
 
     @Permission("login")
-    @RequestMapping(value = "/my_info", method = RequestMethod.POST)
+    @RequestMapping(value = "/userInfo", method = RequestMethod.POST)
     @ResponseBody
-    public User apiMyInfo(HttpServletRequest request) {
-        User user = (User) request.getAttribute("curUser");
-        return user;
+    public ApiResponse<User> apiUserInfo(
+            @RequestParam("id") long id
+    ) {
+        User user = userService.getUserById(id);
+        if (user != null) {
+            return ApiResponse.<User>builder().data(user).msg("ok").status(0).build();
+        } else {
+            return ApiResponse.<User>builder().msg("用户不存在").status(1002).build();
+        }
     }
 }
