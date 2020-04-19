@@ -18,7 +18,7 @@ public interface UserDao {
     @Select("select * from rms_user where token=#{token} limit 1")
     User getUserByToken(String token);
 
-    @Select("select * from rms_user limit #{size} offset #{st}")
+    @Select("select * from rms_user order by id limit #{size} offset #{st}")
     List<User> getUsersByPage(@Param("st") int start, @Param("size") int size);
 
     @Select("select count(1) from rms_user")

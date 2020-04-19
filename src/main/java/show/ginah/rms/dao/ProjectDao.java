@@ -14,7 +14,7 @@ public interface ProjectDao {
     @Select("select * from rms_project where id=#{id} limit 1")
     Project getProjectById(long id);
 
-    @Select("select * from rms_project limit #{size} offset #{st}")
+    @Select("select * from rms_project order by id limit #{size} offset #{st}")
     List<Project> getProjectsByPage(@Param("st") int start, @Param("size") int size);
 
     @Select("select count(1) from rms_project")
