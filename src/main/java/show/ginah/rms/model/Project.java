@@ -10,6 +10,7 @@ public class Project {
     private String name;
     private Date createTime;
     private int state;
+    private int role;
 
     public Project(String name) {
         this.name = name;

@@ -12,4 +12,6 @@ public interface ProjectService {
     List<Project> getProjectsByPage(int page, int size);
 
     int count();
+
+    List<Project> getProjectByUserId(long userId);
 }

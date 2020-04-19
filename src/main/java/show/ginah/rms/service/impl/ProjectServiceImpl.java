@@ -30,4 +30,9 @@ public class ProjectServiceImpl implements ProjectService {
     public int count() {
         return projectDao.count();
     }
+
+    @Override
+    public List<Project> getProjectByUserId(long userId) {
+        return projectDao.getProjectByUserId(userId);
+    }
 }
