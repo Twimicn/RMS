@@ -31,11 +31,12 @@ public class UserController {
     public ApiResponse<User> apiCreate(
             @RequestParam String username,
             @RequestParam String password,
-            @RequestParam String email,
-            @RequestParam String phone,
+            @RequestParam String name,
+            @RequestParam(required = false, defaultValue = "") String email,
+            @RequestParam(required = false, defaultValue = "") String phone,
             @RequestParam(required = false, defaultValue = "0") int roleId
     ) {
-        User user = new User(username, password, email, phone);
+        User user = new User(username, password, name, email, phone);
         user.setRoleId(roleId);
         return userService.register(user);
     }

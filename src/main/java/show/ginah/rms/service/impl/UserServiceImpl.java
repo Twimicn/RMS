@@ -109,4 +109,9 @@ public class UserServiceImpl implements UserService {
         }
         return ApiResponse.<User>builder().status(0).msg("ok").data(user).build();
     }
+
+    @Override
+    public List<User> getUsersByProjectId(long projectId) {
+        return userDao.getUserByProjectId(projectId);
+    }
 }

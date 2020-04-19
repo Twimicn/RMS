@@ -15,6 +15,7 @@ public class User {
     private String email;
     private String phone;
     private int roleId;
+    private int role;
     private Date createTime;
     private Date updateTime;
     private int state;
@@ -25,9 +26,10 @@ public class User {
 
     }
 
-    public User(String username, String password, String email, String phone) {
+    public User(String username, String password, String name, String email, String phone) {
         this.username = username;
         this.password = password;
+        this.name = name;
         this.email = email;
         this.phone = phone;
         this.createTime = new Date();

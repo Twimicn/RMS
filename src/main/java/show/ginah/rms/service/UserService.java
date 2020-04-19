@@ -21,4 +21,6 @@ public interface UserService {
     ApiResponse<User> login(String username, String password);
 
     ApiResponse<User> register(User user);
+
+    List<User> getUsersByProjectId(long projectId);
 }
