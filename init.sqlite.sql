@@ -5,6 +5,7 @@ create table rms_user
             primary key autoincrement,
     username    varchar(50) not null,
     password    varchar(50) not null,
+    name        varchar(20),
     email       varchar(50),
     phone       varchar(20),
     role_id     integer,

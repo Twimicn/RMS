@@ -96,6 +96,10 @@ public class UserServiceImpl implements UserService {
         if (u != null) {
             return ApiResponse.<User>builder().status(1003).msg("用户名已存在").build();
         }
+        u = userDao.getUserByUsername(user.getEmail());
+        if (u != null) {
+            return ApiResponse.<User>builder().status(1003).msg("邮箱已存在").build();
+        }
         user.setPassword(MD5.encode(user.getPassword()));
         user.setExpire(new Date(System.currentTimeMillis() + 86400000L));
         user.setToken(generateToken(user.getUsername()));

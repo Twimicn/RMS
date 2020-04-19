@@ -12,7 +12,7 @@ public interface UserDao {
     @Select("select * from rms_user where id = #{id}")
     User getUserById(long id);
 
-    @Select("select * from rms_user where username=#{username} limit 1")
+    @Select("select * from rms_user where username=#{username} or email=#{username} limit 1")
     User getUserByUsername(String username);
 
     @Select("select * from rms_user where token=#{token} limit 1")
@@ -24,7 +24,7 @@ public interface UserDao {
     @Select("select count(1) from rms_user")
     int countUser();
 
-    @Insert("insert into rms_user(username,password,email,phone,create_time,role_id) values (#{username},#{password},#{email},#{phone},#{createTime},#{roleId})")
+    @Insert("insert into rms_user(username,password,name,email,phone,create_time,role_id) values (#{username},#{password},#{name},#{email},#{phone},#{createTime},#{roleId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     long create(User user);
 
