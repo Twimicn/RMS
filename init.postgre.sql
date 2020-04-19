@@ -30,3 +30,13 @@ create table rms_project
     create_time timestamp,
     state       integer
 );
+
+create table rms_user_project
+(
+    id         serial
+        constraint rms_user_project_pk
+            primary key,
+    user_id    integer not null,
+    project_id integer not null,
+    role       integer default 0
+);

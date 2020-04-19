@@ -28,3 +28,13 @@ create table rms_project
     create_time datetime,
     state       integer
 );
+
+create table rms_user_project
+(
+    id         integer not null
+        constraint rms_user_project_pk
+            primary key autoincrement,
+    user_id    integer not null,
+    project_id integer not null,
+    role       integer default 0
+);
