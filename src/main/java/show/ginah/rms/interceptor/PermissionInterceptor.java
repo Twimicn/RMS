@@ -38,6 +38,16 @@ public class PermissionInterceptor implements HandlerInterceptor {
                         sendError(2003, "非法的Token", response);
                         return false;
                     }
+                    if (user.getState() != 1) {
+                        if (user.getState() == 0) {
+                            sendError(1005, "账号未启用", response);
+                            return false;
+                        }
+                        if (user.getState() == 2) {
+                            sendError(1004, "账号已被禁用", response);
+                            return false;
+                        }
+                    }
                     if (permission.value().equals("admin") && user.getRoleId() != 1) {
                         sendError(2002, "需要管理员权限", response);
                         return false;
