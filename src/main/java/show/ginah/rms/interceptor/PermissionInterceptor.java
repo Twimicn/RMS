@@ -27,33 +27,51 @@ public class PermissionInterceptor implements HandlerInterceptor {
                 permission = handlerMethod.getMethod().getDeclaringClass().getAnnotation(Permission.class);
             }
             if (permission != null && !StringUtils.isEmptyOrWhitespace(permission.value())) {
-                if (permission.value().equals("login") || permission.value().equals("admin")) {
-                    String token = request.getParameter("token");
-                    if (StringUtils.isEmpty(token)) {
-                        sendError(2003, "非法的Token", response);
-                        return false;
-                    }
-                    User user = userService.getUserByToken(token);
-                    if (user == null) {
-                        sendError(2003, "非法的Token", response);
-                        return false;
-                    }
-                    if (user.getState() != 1) {
-                        if (user.getState() == 0) {
-                            sendError(1005, "账号未启用", response);
-                            return false;
-                        }
-                        if (user.getState() == 2) {
-                            sendError(1004, "账号已被禁用", response);
-                            return false;
-                        }
-                    }
-                    if (permission.value().equals("admin") && user.getRoleId() != 1) {
-                        sendError(2002, "需要管理员权限", response);
-                        return false;
-                    }
-                    request.setAttribute("curUser", user);
+                String token = request.getParameter("token");
+                if (StringUtils.isEmpty(token)) {
+                    sendError(2003, "非法的Token", response);
+                    return false;
                 }
+                User user = userService.getUserByToken(token);
+                if (user == null) {
+                    sendError(2003, "非法的Token", response);
+                    return false;
+                }
+                if (user.getState() != 1) {
+                    if (user.getState() == 0) {
+                        sendError(1005, "账号未启用", response);
+                        return false;
+                    }
+                    if (user.getState() == 2) {
+                        sendError(1004, "账号已被禁用", response);
+                        return false;
+                    }
+                }
+                if (user.getRoleId() == 1) {
+                    request.setAttribute("curUser", user);
+                    return true;
+                }
+                if (permission.value().equals("admin") && user.getRoleId() != 1) {
+                    sendError(2002, "需要管理员权限", response);
+                    return false;
+                }
+                String[] permissionList = permission.value().split(",");
+                boolean flag = false;
+                for (String p : permissionList) {
+                    if (("student".equals(p) && user.getRoleId() == 2)
+                            || ("teacher".equals(p) && user.getRoleId() == 3)
+                            || ("tutor".equals(p) && user.getRoleId() == 4)
+                            || ("login".equals(p))
+                    ) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag) {
+                    sendError(2002, "权限不足", response);
+                    return false;
+                }
+                request.setAttribute("curUser", user);
             }
         }
         return true;
