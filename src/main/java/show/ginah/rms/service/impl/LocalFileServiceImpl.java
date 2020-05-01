@@ -36,7 +36,7 @@ public class LocalFileServiceImpl implements FileService {
             File dir = getDir();
             File uploadFile = new File(dir.getAbsolutePath() + File.separator + filename);
             file.transferTo(uploadFile);
-            return filename;
+            return dir.getAbsolutePath() + File.separator + filename;
         } catch (IOException e) {
             e.printStackTrace();
         }
