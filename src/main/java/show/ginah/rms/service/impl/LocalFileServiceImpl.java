@@ -1,5 +1,6 @@
 package show.ginah.rms.service.impl;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import show.ginah.rms.service.FileService;
@@ -9,7 +10,8 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 
-@Service("localFileService")
+@Service
+@Profile("local")
 public class LocalFileServiceImpl implements FileService {
 
     private final ServletContext context;

@@ -12,7 +12,6 @@ import show.ginah.rms.service.FileService;
 @Controller
 public class TestController {
     @Autowired
-    @Qualifier("localFileService")
     FileService fileService;
 
     @RequestMapping("/test")
