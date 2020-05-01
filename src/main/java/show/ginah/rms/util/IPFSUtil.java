@@ -12,7 +12,7 @@ public class IPFSUtil {
 
     private static IPFS getIpfs() {
         if (ipfs == null) {
-            ipfs = new IPFS("ipfs.infura.io", 5001, "v1", true);
+            ipfs = new IPFS("ipfs.infura.io", 5001, "v0", true);
         }
         return ipfs;
     }
