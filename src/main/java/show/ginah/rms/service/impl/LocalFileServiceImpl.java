@@ -1,25 +1,26 @@
 package show.ginah.rms.service.impl;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 import show.ginah.rms.service.FileService;
 import show.ginah.rms.util.MD5;
 
+import javax.servlet.ServletContext;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Service("localFileService")
 public class LocalFileServiceImpl implements FileService {
 
-    @Value("${bunny.upload}")
-    private String uploadDir;
+    private final ServletContext context;
 
-    private File getDir() throws FileNotFoundException {
-        String basePath = ResourceUtils.getURL("classpath:").getPath();
-        File dir = new File(basePath + uploadDir);
+    public LocalFileServiceImpl(ServletContext context) {
+        this.context = context;
+    }
+
+    private File getDir() {
+        String basePath = context.getRealPath("upload");
+        File dir = new File(basePath);
         if (!dir.exists()) {
             dir.mkdirs();
         }

@@ -7,8 +7,17 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import show.ginah.rms.interceptor.PermissionInterceptor;
 
+import javax.servlet.ServletContext;
+import java.io.File;
+
 @Configuration
 public class FilterConfig implements WebMvcConfigurer {
+
+    private final ServletContext context;
+
+    public FilterConfig(ServletContext context) {
+        this.context = context;
+    }
 
     @Bean
     public PermissionInterceptor permissionInterceptor() {
@@ -25,6 +34,6 @@ public class FilterConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/upload/**")
-                .addResourceLocations("classpath:/upload/");
+                .addResourceLocations("file:" + context.getRealPath("upload").replace(File.separatorChar, '/') + '/');
     }
 }
