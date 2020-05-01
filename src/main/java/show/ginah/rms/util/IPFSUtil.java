@@ -12,7 +12,7 @@ public class IPFSUtil {
 
     private static IPFS getIpfs() {
         if (ipfs == null) {
-            ipfs = new IPFS("ipfs.infura.io", 5001, "v0", true);
+            ipfs = new IPFS("/dnsaddr/ipfs.infura.io/tcp/5001/https");
         }
         return ipfs;
     }
