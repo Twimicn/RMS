@@ -3,6 +3,7 @@ package show.ginah.rms.service.impl;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import show.ginah.rms.model.FileInfo;
 import show.ginah.rms.service.FileService;
 import show.ginah.rms.util.IPFSUtil;
 
@@ -12,12 +13,17 @@ import java.io.IOException;
 @Profile("heroku")
 public class HerokuFileServiceImpl implements FileService {
     @Override
-    public String upload(MultipartFile file, String path) {
+    public FileInfo upload(MultipartFile file) {
+        String path = "";
         try {
-            return IPFSUtil.uploadFile(file.getBytes());
+            path = IPFSUtil.uploadFile(file.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
-            return "error";
         }
+        return FileInfo.builder()
+                .filename(file.getOriginalFilename())
+                .path(path)
+                .type("ipfs")
+                .build();
     }
 }

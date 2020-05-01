@@ -1,7 +1,8 @@
 package show.ginah.rms.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import show.ginah.rms.model.FileInfo;
 
 public interface FileService {
-    String upload(MultipartFile file, String path);
+    FileInfo upload(MultipartFile file);
 }
