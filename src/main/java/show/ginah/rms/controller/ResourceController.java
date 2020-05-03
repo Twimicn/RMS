@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import show.ginah.rms.service.FileService;
 
 @Controller
-public class TestController {
+public class ResourceController {
     @Autowired
     FileService fileService;
 

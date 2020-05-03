@@ -38,3 +38,16 @@ create table rms_user_project
     project_id integer not null,
     role       integer default 0
 );
+
+create table rms_resource
+(
+    id          integer not null
+        constraint rms_resource_pk
+            primary key autoincrement,
+    name        text,
+    memo        text,
+    user_id     integer,
+    project_id  integer,
+    create_time datetime,
+    state       integer
+);
