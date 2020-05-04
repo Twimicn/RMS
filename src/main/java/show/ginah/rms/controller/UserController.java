@@ -1,6 +1,5 @@
 package show.ginah.rms.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import show.ginah.rms.annotation.Permission;
 import show.ginah.rms.common.ApiResponse;
@@ -8,7 +7,7 @@ import show.ginah.rms.common.PageData;
 import show.ginah.rms.model.User;
 import show.ginah.rms.service.UserService;
 
-@Controller
+@RestController
 @RequestMapping("/api/user")
 @CrossOrigin
 public class UserController {
@@ -19,15 +18,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping("/login")
     public ApiResponse<User> apiLogin(@RequestParam String username, @RequestParam String password) {
         return userService.login(username, password);
     }
 
     @Permission("admin")
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping("/create")
     public ApiResponse<User> apiCreate(
             @RequestParam String username,
             @RequestParam String password,
@@ -42,8 +39,7 @@ public class UserController {
     }
 
     @Permission("admin")
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping("/list")
     public ApiResponse<PageData<User>> apiList(
             @RequestParam(name = "page", required = false, defaultValue = "1") int page,
             @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
@@ -55,8 +51,7 @@ public class UserController {
     }
 
     @Permission("admin")
-    @RequestMapping(value = "/updateState", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping("/updateState")
     public ApiResponse<Boolean> apiUpdateState(
             @RequestParam("id") long id,
             @RequestParam("state") int state) {
@@ -64,8 +59,7 @@ public class UserController {
     }
 
     @Permission("login")
-    @RequestMapping(value = "/userInfo", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping("/userInfo")
     public ApiResponse<User> apiUserInfo(
             @RequestParam("id") long id
     ) {
