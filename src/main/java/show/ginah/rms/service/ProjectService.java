@@ -1,6 +1,7 @@
 package show.ginah.rms.service;
 
 import org.springframework.stereotype.Service;
+import show.ginah.rms.common.ApiResponse;
 import show.ginah.rms.model.Project;
 
 import java.util.List;
@@ -13,5 +14,15 @@ public interface ProjectService {
 
     int count();
 
-    List<Project> getProjectByUserId(long userId);
+    List<Project> getProjectsByUserId(long userId);
+
+    ApiResponse<Long> create(long userId, Project project);
+
+    boolean checkInProject(long useId, long projectId);
+
+    boolean checkAuth(long userId, long projectId, int role);
+
+    ApiResponse<Boolean> addMember(long userId, long projectId, int role);
+
+    ApiResponse<Boolean> removeMember(long userId, long projectId);
 }
