@@ -103,8 +103,8 @@ public class UserServiceImpl implements UserService {
         user.setPassword(MD5.encode(user.getPassword()));
         user.setExpire(new Date(System.currentTimeMillis() + 86400000L));
         user.setToken(generateToken(user.getUsername()));
-        long uid = userDao.create(user);
-        if (uid <= 0) {
+        int row = userDao.create(user);
+        if (row <= 0) {
             return ApiResponse.<User>builder().status(-6).msg("数据库出错").build();
         }
         return ApiResponse.<User>builder().status(0).msg("ok").data(user).build();
