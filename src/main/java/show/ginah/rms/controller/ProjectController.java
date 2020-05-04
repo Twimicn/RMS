@@ -43,7 +43,8 @@ public class ProjectController {
             HttpServletRequest request,
             @RequestParam long projectId) {
         User user = (User) request.getAttribute("curUser");
-        if (projectService.checkInProject(user.getId(), projectId)) {
+        if (projectService.checkInProject(user.getId(), projectId)
+                || user.getRoleId() == 1) {
             List<User> users = userService.getUsersByProjectId(projectId);
             PageData<User> userPageData = PageData.<User>builder()
                     .list(users).page(1)
