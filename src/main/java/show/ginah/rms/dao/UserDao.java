@@ -34,6 +34,6 @@ public interface UserDao {
     @Update("update rms_user set state=#{state} where id=#{id}")
     int updateState(long id, int state);
 
-    @Select("select rms_user.*, rms_user_project.role from rms_user left join rms_user_project on rms_user.id = rms_user_project.user_id where project_id=#{projectId}")
+    @Select("select rms_user.*, rms_user_project.role from rms_user left join rms_user_project on rms_user.id = rms_user_project.user_id where project_id=#{projectId} order by rms_user_project.role desc,rms_user.id")
     List<User> getUserByProjectId(long projectId);
 }

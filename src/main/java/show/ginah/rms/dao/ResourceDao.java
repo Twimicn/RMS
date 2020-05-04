@@ -20,6 +20,6 @@ public interface ResourceDao {
     @Select("select count(1) from rms_resource")
     int count();
 
-    @Select("select rms_resource.*,rms_user.name as user_name from rms_resource left join rms_user on rms_resource.user_id=rms_user.id where rms_resource.project_id=#{projectId}")
+    @Select("select rms_resource.*,rms_user.name as user_name from rms_resource left join rms_user on rms_resource.user_id=rms_user.id where rms_resource.project_id=#{projectId} order by rms_resource.id")
     List<Resource> getResourcesByProjectId(long projectId);
 }
