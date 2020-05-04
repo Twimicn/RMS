@@ -31,21 +31,22 @@ create table rms_project
 
 create table rms_user_project
 (
-    id         integer not null
+    id         integer
         constraint rms_user_project_pk
             primary key autoincrement,
-    user_id    integer not null,
-    project_id integer not null,
+    user_id    integer,
+    project_id integer,
     role       integer default 0
 );
 
 create table rms_resource
 (
-    id          integer not null
+    id          integer
         constraint rms_resource_pk
             primary key autoincrement,
     name        text,
     memo        text,
+    storage     varchar(10),
     user_id     integer,
     project_id  integer,
     create_time datetime,
