@@ -38,6 +38,21 @@ public class ProjectController {
     }
 
     @Permission("teacher,tutor,student")
+    @PostMapping("/view")
+    public ApiResponse<Project> apiView(
+            HttpServletRequest request,
+            @RequestParam long projectId) {
+        User user = (User) request.getAttribute("curUser");
+        if (projectService.checkInProject(user.getId(), projectId)
+                || user.getRoleId() == 1) {
+            Project project = projectService.getProjectById(projectId);
+            ;
+            return ApiResponse.<Project>builder().status(0).msg("ok").data(project).build();
+        }
+        return ApiResponse.<Project>builder().status(2002).msg("权限不足").build();
+    }
+
+    @Permission("teacher,tutor,student")
     @PostMapping("/userList")
     public ApiResponse<PageData<User>> apiUserList(
             HttpServletRequest request,
@@ -88,6 +103,21 @@ public class ProjectController {
         if (projectService.checkAuth(user.getId(), projectId, Constant.PROJECT_SPONSOR)
                 || user.getRoleId() == 1) {
             return projectService.addMember(userId, projectId, role);
+        }
+        return ApiResponse.<Boolean>builder().status(2002).msg("权限不足").build();
+    }
+
+    @Permission("teacher,tutor")
+    @PostMapping("/editMember")
+    public ApiResponse<Boolean> apiEditMember(
+            HttpServletRequest request,
+            @RequestParam long userId,
+            @RequestParam long projectId,
+            @RequestParam int role) {
+        User user = (User) request.getAttribute("curUser");
+        if (projectService.checkAuth(user.getId(), projectId, Constant.PROJECT_SPONSOR)
+                || user.getRoleId() == 1) {
+            return projectService.editMember(userId, projectId, role);
         }
         return ApiResponse.<Boolean>builder().status(2002).msg("权限不足").build();
     }

@@ -70,6 +70,15 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public ApiResponse<Boolean> editMember(long userId, long projectId, int role) {
+        int row = projectDao.editMember(projectId, userId, role);
+        if (row <= 0) {
+            return ApiResponse.<Boolean>builder().status(2002).msg("权限不足").build();
+        }
+        return ApiResponse.<Boolean>builder().msg("ok").status(0).data(true).build();
+    }
+
+    @Override
     public ApiResponse<Boolean> removeMember(long userId, long projectId) {
         int row = projectDao.removeMember(projectId, userId);
         if (row <= 0) {

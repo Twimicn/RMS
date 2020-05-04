@@ -34,6 +34,9 @@ public interface ProjectDao {
     @Insert("insert into rms_user_project(project_id,user_id,role) values (#{projectId},#{userId},#{role})")
     int addMember(long projectId, long userId, int role);
 
+    @Insert("update rms_user_project set role=#{role} where user_id=#{userId} and project_id=#{projectId} and role!=2")
+    int editMember(long projectId, long userId, int role);
+
     @Delete("delete from rms_user_project where user_id=#{userId} and project_id=#{projectId} and role!=2")
     int removeMember(long projectId, long userId);
 }

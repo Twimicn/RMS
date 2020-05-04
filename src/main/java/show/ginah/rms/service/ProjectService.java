@@ -24,5 +24,7 @@ public interface ProjectService {
 
     ApiResponse<Boolean> addMember(long userId, long projectId, int role);
 
+    ApiResponse<Boolean> editMember(long userId, long projectId, int role);
+
     ApiResponse<Boolean> removeMember(long userId, long projectId);
 }
