@@ -26,7 +26,7 @@ public interface UserDao {
 
     @Insert("insert into rms_user(username,password,name,email,phone,create_time,role_id) values (#{username},#{password},#{name},#{email},#{phone},#{createTime},#{roleId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    long create(User user);
+    int create(User user);
 
     @Update("update rms_user set token=#{token},update_time=#{updateTime},expire=#{expire} where id=#{id}")
     int updateToken(User user);
