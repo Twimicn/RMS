@@ -12,6 +12,10 @@ public class Project {
     private int state;
     private int role;
 
+    public Project() {
+
+    }
+
     public Project(String name) {
         this.name = name;
         this.createTime = new Date();
