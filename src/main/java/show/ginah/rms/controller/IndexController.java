@@ -9,6 +9,6 @@ public class IndexController {
     @RequestMapping("/")
     @ResponseBody
     public String index() {
-        return "RMS 04191746";
+        return "RMS 05041803";
     }
 }
