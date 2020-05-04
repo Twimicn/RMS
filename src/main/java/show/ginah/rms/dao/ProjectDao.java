@@ -1,8 +1,6 @@
 package show.ginah.rms.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 import show.ginah.rms.model.Project;
 
@@ -21,5 +19,21 @@ public interface ProjectDao {
     int count();
 
     @Select("select rms_project.*, rms_user_project.role from rms_project left join rms_user_project on rms_project.id = rms_user_project.project_id where user_id=#{userId}")
-    List<Project> getProjectByUserId(long userId);
+    List<Project> getProjectsByUserId(long userId);
+
+    @Insert("insert into rms_project(name,create_time,state) values (#{name},#{createTime},#{state})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int create(Project project);
+
+    @Select("select count(1)>0 as auth from rms_user_project where user_id=#{userId} and project_id=#{projectId}")
+    boolean checkInProject(long userId, long projectId);
+
+    @Select("select count(1)>0 as auth from rms_user_project where user_id=#{userId} and project_id=#{projectId} and role=#{role}")
+    boolean checkAuth(long userId, long projectId, int role);
+
+    @Insert("insert into rms_user_project(project_id,user_id,role) values (#{projectId},#{userId},#{role})")
+    int addMember(long projectId, long userId, int role);
+
+    @Delete("delete from rms_user_project where user_id=#{userId} and project_id=#{projectId} and role!=2")
+    int removeMember(long projectId, long userId);
 }
