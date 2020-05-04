@@ -36,7 +36,21 @@ create table rms_user_project
     id         serial
         constraint rms_user_project_pk
             primary key,
-    user_id    integer not null,
-    project_id integer not null,
+    user_id    integer,
+    project_id integer,
     role       integer default 0
+);
+
+create table rms_resource
+(
+    id          serial
+        constraint rms_resource_pk
+            primary key,
+    name        text,
+    memo        text,
+    storage     varchar(10),
+    user_id     integer,
+    project_id  integer,
+    create_time timestamp,
+    state       integer
 );
