@@ -13,7 +13,7 @@ import java.io.IOException;
 @Profile("heroku")
 public class HerokuFileServiceImpl implements FileService {
     @Override
-    public FileInfo upload(MultipartFile file) {
+    public FileInfo upload(MultipartFile file, String subDir) {
         String path = "";
         try {
             path = IPFSUtil.uploadFile(file.getBytes());
@@ -25,5 +25,10 @@ public class HerokuFileServiceImpl implements FileService {
                 .path(path)
                 .type("ipfs")
                 .build();
+    }
+
+    @Override
+    public String pathToUrl(String path) {
+        return "https://ipfs.globalupload.io/" + path;
     }
 }

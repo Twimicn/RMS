@@ -45,6 +45,6 @@ public class ResourceController {
     @RequestMapping("/test")
     @ResponseBody
     public String test(@RequestParam("file") MultipartFile file) {
-        return fileService.upload(file).toString();
+        return fileService.upload(file, "res").toString();
     }
 }

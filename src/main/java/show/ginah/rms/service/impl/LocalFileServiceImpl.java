@@ -10,6 +10,7 @@ import show.ginah.rms.util.MD5;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
 @Profile("local")
@@ -21,8 +22,8 @@ public class LocalFileServiceImpl implements FileService {
         this.context = context;
     }
 
-    private File getDir() {
-        String basePath = context.getRealPath("upload");
+    private File getDir(String subDir) {
+        String basePath = context.getRealPath("upload") + File.separator + subDir;
         File dir = new File(basePath);
         if (!dir.exists()) {
             dir.mkdirs();
@@ -31,14 +32,15 @@ public class LocalFileServiceImpl implements FileService {
     }
 
     @Override
-    public FileInfo upload(MultipartFile file) {
+    public FileInfo upload(MultipartFile file, String subDir) {
         String path = "";
         try {
-            String filename = MD5.encode("res" + System.currentTimeMillis()) + ".txt";
-            File dir = getDir();
+            String[] fs = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
+            String filename = MD5.encode("res" + System.currentTimeMillis()) + "." + fs[fs.length - 1];
+            File dir = getDir(subDir);
             File uploadFile = new File(dir.getAbsolutePath() + File.separator + filename);
             file.transferTo(uploadFile);
-            path = filename;
+            path = subDir + "/" + filename;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,5 +49,10 @@ public class LocalFileServiceImpl implements FileService {
                 .path(path)
                 .type("local")
                 .build();
+    }
+
+    @Override
+    public String pathToUrl(String path) {
+        return "/upload/" + path;
     }
 }
