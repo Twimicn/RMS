@@ -102,6 +102,10 @@ public class ProjectController {
         User user = (User) request.getAttribute("curUser");
         if (projectService.checkAuth(user.getId(), projectId, Constant.PROJECT_SPONSOR)
                 || user.getRoleId() == 1) {
+            User user1 = userService.getUserById(userId);
+            if (user1 == null) {
+                return ApiResponse.<Boolean>builder().status(1002).msg("用户不存在").build();
+            }
             return projectService.addMember(userId, projectId, role);
         }
         return ApiResponse.<Boolean>builder().status(2002).msg("权限不足").build();
