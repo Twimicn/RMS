@@ -41,14 +41,16 @@ create table rms_user_project
 
 create table rms_resource
 (
-    id          integer
+    id           integer
         constraint rms_resource_pk
             primary key autoincrement,
-    name        text,
-    memo        text,
-    storage     varchar(10),
-    user_id     integer,
-    project_id  integer,
-    create_time datetime,
-    state       integer
+    name         text,
+    memo         text,
+    storage      varchar(10),
+    user_id      integer,
+    user_name    text,
+    project_id   integer,
+    project_name text,
+    create_time  datetime,
+    state        integer
 );

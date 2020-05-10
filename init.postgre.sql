@@ -43,14 +43,16 @@ create table rms_user_project
 
 create table rms_resource
 (
-    id          serial
+    id           serial
         constraint rms_resource_pk
             primary key,
-    name        text,
-    memo        text,
-    storage     varchar(10),
-    user_id     integer,
-    project_id  integer,
-    create_time timestamp,
-    state       integer
+    name         text,
+    memo         text,
+    storage      varchar(10),
+    user_id      integer,
+    user_name    text,
+    project_id   integer,
+    project_name text,
+    create_time  timestamp,
+    state        integer
 );
