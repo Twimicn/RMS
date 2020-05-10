@@ -6,8 +6,10 @@ import show.ginah.rms.common.ApiResponse;
 import show.ginah.rms.common.Constant;
 import show.ginah.rms.common.PageData;
 import show.ginah.rms.model.Project;
+import show.ginah.rms.model.Resource;
 import show.ginah.rms.model.User;
 import show.ginah.rms.service.ProjectService;
+import show.ginah.rms.service.ResourceService;
 import show.ginah.rms.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,10 +21,14 @@ import java.util.List;
 public class ProjectController {
     private ProjectService projectService;
     private UserService userService;
+    private ResourceService resourceService;
 
-    public ProjectController(ProjectService projectService, UserService userService) {
+    public ProjectController(ProjectService projectService,
+                             UserService userService,
+                             ResourceService resourceService) {
         this.projectService = projectService;
         this.userService = userService;
+        this.resourceService = resourceService;
     }
 
     @Permission("admin")
@@ -68,6 +74,24 @@ public class ProjectController {
             return ApiResponse.<PageData<User>>builder().status(0).msg("ok").data(userPageData).build();
         }
         return ApiResponse.<PageData<User>>builder().status(2002).msg("权限不足").build();
+    }
+
+    @Permission("teacher,tutor,student")
+    @PostMapping("/resList")
+    public ApiResponse<PageData<Resource>> apiResList(
+            HttpServletRequest request,
+            @RequestParam("projectId") long projectId) {
+        User user = (User) request.getAttribute("curUser");
+        if (projectService.checkInProject(user.getId(), projectId)
+                || user.getRoleId() == 1) {
+            List<Resource> resources = resourceService.getResourcesByProjectId(projectId);
+            PageData<Resource> resourcePageData = PageData.<Resource>builder()
+                    .list(resources).page(1)
+                    .total(resources.size())
+                    .build();
+            return ApiResponse.<PageData<Resource>>builder().status(0).msg("ok").data(resourcePageData).build();
+        }
+        return ApiResponse.<PageData<Resource>>builder().status(2002).msg("权限不足").build();
     }
 
     @Permission("teacher,tutor,student")
