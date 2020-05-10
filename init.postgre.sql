@@ -48,7 +48,7 @@ create table rms_resource
             primary key,
     name         text,
     memo         text,
-    storage      varchar(10),
+    storage      text,
     user_id      integer,
     user_name    text,
     project_id   integer,
