@@ -53,6 +53,6 @@ public class LocalFileServiceImpl implements FileService {
 
     @Override
     public String pathToUrl(String path) {
-        return "/upload/" + path;
+        return "http://localhost:8080/upload/" + path;
     }
 }
