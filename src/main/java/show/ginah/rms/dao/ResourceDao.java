@@ -1,8 +1,6 @@
 package show.ginah.rms.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 import show.ginah.rms.model.Resource;
 
@@ -20,6 +18,10 @@ public interface ResourceDao {
     @Select("select count(1) from rms_resource")
     int count();
 
-    @Select("select rms_resource.*,rms_user.name as user_name from rms_resource left join rms_user on rms_resource.user_id=rms_user.id where rms_resource.project_id=#{projectId} order by rms_resource.id")
+    @Select("select * from rms_resource where project_id=#{projectId} order by id")
     List<Resource> getResourcesByProjectId(long projectId);
+
+    @Insert("insert into rms_resource(name,storage,user_id,user_name,project_id,project_name,create_time,state) values (#{name},#{storage},#{userId},#{userName},#{projectId},#{projectName},#{createTime},#{state})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int create(Resource resource);
 }
