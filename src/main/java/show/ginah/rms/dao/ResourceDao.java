@@ -21,6 +21,9 @@ public interface ResourceDao {
     @Select("select * from rms_resource where project_id=#{projectId} order by id")
     List<Resource> getResourcesByProjectId(long projectId);
 
+    @Select("select * from rms_resource where user_id=#{userId} order by id")
+    List<Resource> getResourcesByUserId(long userId);
+
     @Insert("insert into rms_resource(name,storage,user_id,user_name,project_id,project_name,create_time,state) values (#{name},#{storage},#{userId},#{userName},#{projectId},#{projectName},#{createTime},#{state})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int create(Resource resource);

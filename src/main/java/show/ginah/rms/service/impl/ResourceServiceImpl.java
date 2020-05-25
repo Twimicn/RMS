@@ -53,6 +53,15 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public List<Resource> getResourcesByUserId(long id) {
+        List<Resource> resources = resourceDao.getResourcesByUserId(id);
+        for (Resource resource : resources) {
+            resource.setLink(fileService.pathToUrl(resource.getStorage()));
+        }
+        return resources;
+    }
+
+    @Override
     public ApiResponse<Void> addRes(MultipartFile file, User user, Project project) {
         if (project == null) {
             return ApiResponse.<Void>builder().status(3001).msg("项目不存在").build();

@@ -12,6 +12,7 @@ import show.ginah.rms.service.ProjectService;
 import show.ginah.rms.service.ResourceService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/resource")
@@ -35,6 +36,19 @@ public class ResourceController {
         PageData<Resource> resourcePageData = PageData.<Resource>builder()
                 .list(resourceService.getResourcesByPage(page, size)).page(page)
                 .total(resourceService.count())
+                .build();
+        return ApiResponse.<PageData<Resource>>builder().status(0).msg("ok").data(resourcePageData).build();
+    }
+
+    @Permission("teacher,tutor,student")
+    @PostMapping("/mine")
+    public ApiResponse<PageData<Resource>> apiMineList(
+            HttpServletRequest request) {
+        User user = (User) request.getAttribute("curUser");
+        List<Resource> resources = resourceService.getResourcesByUserId(user.getId());
+        PageData<Resource> resourcePageData = PageData.<Resource>builder()
+                .list(resources).page(1)
+                .total(resources.size())
                 .build();
         return ApiResponse.<PageData<Resource>>builder().status(0).msg("ok").data(resourcePageData).build();
     }
