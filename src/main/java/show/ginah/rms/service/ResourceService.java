@@ -21,5 +21,7 @@ public interface ResourceService {
 
     List<Resource> getResourcesByUserId(long id);
 
+    List<Resource> getResourcesBySearch(String search);
+
     ApiResponse<Void> addRes(MultipartFile file, User user, Project project);
 }

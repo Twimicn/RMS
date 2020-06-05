@@ -53,6 +53,18 @@ public class ResourceController {
         return ApiResponse.<PageData<Resource>>builder().status(0).msg("ok").data(resourcePageData).build();
     }
 
+    @Permission("teacher,tutor")
+    @PostMapping("/search")
+    public ApiResponse<PageData<Resource>> apiSearch(
+            @RequestParam String word) {
+        List<Resource> resources = resourceService.getResourcesBySearch(word);
+        PageData<Resource> resourcePageData = PageData.<Resource>builder()
+                .list(resources).page(1)
+                .total(resources.size())
+                .build();
+        return ApiResponse.<PageData<Resource>>builder().status(0).msg("ok").data(resourcePageData).build();
+    }
+
     @Permission("student")
     @PostMapping("/upload")
     public ApiResponse<Void> apiAddRes(

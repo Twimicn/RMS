@@ -39,6 +39,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<Project> getProjectsBySearch(String search) {
+        return projectDao.getProjectsBySearch("%" + search + "%");
+    }
+
+    @Override
     public ApiResponse<Long> create(long userId, Project project) {
         int row = projectDao.create(project);
         if (row > 0) {

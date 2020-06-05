@@ -62,6 +62,15 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public List<Resource> getResourcesBySearch(String search) {
+        List<Resource> resources = resourceDao.getResourcesBySearch("%" + search + "%");
+        for (Resource resource : resources) {
+            resource.setLink(fileService.pathToUrl(resource.getStorage()));
+        }
+        return resources;
+    }
+
+    @Override
     public ApiResponse<Void> addRes(MultipartFile file, User user, Project project) {
         if (project == null) {
             return ApiResponse.<Void>builder().status(3001).msg("项目不存在").build();

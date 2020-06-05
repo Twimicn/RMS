@@ -7,6 +7,8 @@ import show.ginah.rms.common.PageData;
 import show.ginah.rms.model.User;
 import show.ginah.rms.service.UserService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin
@@ -69,5 +71,17 @@ public class UserController {
         } else {
             return ApiResponse.<User>builder().msg("用户不存在").status(1002).build();
         }
+    }
+
+    @Permission("teacher,tutor")
+    @PostMapping("/search")
+    public ApiResponse<PageData<User>> apiSearch(
+            @RequestParam String word) {
+        List<User> users = userService.getUsersBySearch(word);
+        PageData<User> userPageData = PageData.<User>builder()
+                .list(users).page(1)
+                .total(users.size())
+                .build();
+        return ApiResponse.<PageData<User>>builder().status(0).msg("ok").data(userPageData).build();
     }
 }

@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getUsersBySearch(String search) {
+        return userDao.getUsersBySearch("%" + search + "%");
+    }
+
+    @Override
     public List<User> getUsersByPage(int page, int size) {
         return userDao.getUsersByPage((page - 1) * size, size);
     }

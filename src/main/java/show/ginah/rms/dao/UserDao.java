@@ -18,6 +18,9 @@ public interface UserDao {
     @Select("select * from rms_user where token=#{token} limit 1")
     User getUserByToken(String token);
 
+    @Select("select * from rms_user where name like #{search} or username like #{search}")
+    List<User> getUsersBySearch(String search);
+
     @Select("select * from rms_user order by id limit #{size} offset #{st}")
     List<User> getUsersByPage(@Param("st") int start, @Param("size") int size);
 

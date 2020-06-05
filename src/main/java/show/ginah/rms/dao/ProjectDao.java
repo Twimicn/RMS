@@ -21,6 +21,9 @@ public interface ProjectDao {
     @Select("select rms_project.*, rms_user_project.role from rms_project left join rms_user_project on rms_project.id = rms_user_project.project_id where user_id=#{userId} order by rms_project.id")
     List<Project> getProjectsByUserId(long userId);
 
+    @Select("select * from rms_project where name like #{search}")
+    List<Project> getProjectsBySearch(String search);
+
     @Insert("insert into rms_project(name,create_time,state) values (#{name},#{createTime},#{state})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int create(Project project);

@@ -12,6 +12,8 @@ public interface UserService {
 
     User getUserByToken(String token);
 
+    List<User> getUsersBySearch(String search);
+
     List<User> getUsersByPage(int page, int size);
 
     int countUser();

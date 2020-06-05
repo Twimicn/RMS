@@ -52,7 +52,6 @@ public class ProjectController {
         if (projectService.checkInProject(user.getId(), projectId)
                 || user.getRoleId() == 1) {
             Project project = projectService.getProjectById(projectId);
-            ;
             return ApiResponse.<Project>builder().status(0).msg("ok").data(project).build();
         }
         return ApiResponse.<Project>builder().status(2002).msg("权限不足").build();
@@ -100,6 +99,30 @@ public class ProjectController {
             HttpServletRequest request) {
         User user = (User) request.getAttribute("curUser");
         List<Project> projects = projectService.getProjectsByUserId(user.getId());
+        PageData<Project> projectPageData = PageData.<Project>builder()
+                .list(projects).page(1)
+                .total(projects.size())
+                .build();
+        return ApiResponse.<PageData<Project>>builder().status(0).msg("ok").data(projectPageData).build();
+    }
+
+    @Permission("teacher,tutor,student")
+    @PostMapping("/their")
+    public ApiResponse<PageData<Project>> apiTheirList(
+            @RequestParam long id) {
+        List<Project> projects = projectService.getProjectsByUserId(id);
+        PageData<Project> projectPageData = PageData.<Project>builder()
+                .list(projects).page(1)
+                .total(projects.size())
+                .build();
+        return ApiResponse.<PageData<Project>>builder().status(0).msg("ok").data(projectPageData).build();
+    }
+
+    @Permission("teacher,tutor,student")
+    @PostMapping("/search")
+    public ApiResponse<PageData<Project>> apiSearch(
+            @RequestParam String word) {
+        List<Project> projects = projectService.getProjectsBySearch(word);
         PageData<Project> projectPageData = PageData.<Project>builder()
                 .list(projects).page(1)
                 .total(projects.size())

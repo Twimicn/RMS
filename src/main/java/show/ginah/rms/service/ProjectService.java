@@ -16,6 +16,8 @@ public interface ProjectService {
 
     List<Project> getProjectsByUserId(long userId);
 
+    List<Project> getProjectsBySearch(String search);
+
     ApiResponse<Long> create(long userId, Project project);
 
     boolean checkInProject(long useId, long projectId);
