@@ -31,7 +31,7 @@ public class IPFSUtil {
 
     public static byte[] fetchFile(String hash) {
         try {
-            return getIpfs().get(Multihash.fromBase58(""));
+            return getIpfs().get(Multihash.fromBase58(hash));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
