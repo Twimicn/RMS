@@ -3,6 +3,7 @@ package show.ginah.rms.util;
 import io.ipfs.api.IPFS;
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
+import io.ipfs.multihash.Multihash;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +23,15 @@ public class IPFSUtil {
         try {
             List<MerkleNode> result = getIpfs().add(wrapper);
             return result.get(0).hash.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static byte[] fetchFile(String hash) {
+        try {
+            return getIpfs().get(Multihash.fromBase58(""));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
