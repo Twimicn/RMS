@@ -29,6 +29,6 @@ public class HerokuFileServiceImpl implements FileService {
 
     @Override
     public String pathToUrl(String path) {
-        return "https://ipfs.globalupload.io/" + path;
+        return "https://ginahan.herokuapp.com/file/p/" + path;
     }
 }
